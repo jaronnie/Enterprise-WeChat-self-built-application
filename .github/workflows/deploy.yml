@@ -20,7 +20,7 @@ jobs:
 
       - name: Build ewsba
         run: |
-          GOOS=linux GOARCH=amd64 go build
+          GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -gcflags="all=-N -l"
       - name: copy file via ssh password
         uses: appleboy/scp-action@master
         with:
