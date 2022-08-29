@@ -8,12 +8,15 @@ import (
 )
 
 type SendMessageRequest struct {
-	ToUser  string `json:"touser"`
-	MsgType string `json:"msgtype"`
-	AgentID int    `json:"agentid"`
-	Text    struct {
-		Content string `json:"content"`
-	} `json:"text"`
+	ToUser   string  `json:"touser"`
+	MsgType  string  `json:"msgtype"`
+	AgentID  int     `json:"agentid"`
+	Text     Content `json:"text"`
+	Markdown Content `json:"markdown"`
+}
+
+type Content struct {
+	Content string `json:"content"`
 }
 
 func SendMessage(request *SendMessageRequest) error {
@@ -25,6 +28,12 @@ func SendMessage(request *SendMessageRequest) error {
 	if err != nil {
 		return err
 	}
+
+	if token == "" {
+		return errors.New("nil token")
+	}
+
+	fmt.Println(token)
 
 	headers := make(map[string]string, 0)
 	headers["Content-Type"] = "application/json"

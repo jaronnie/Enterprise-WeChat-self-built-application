@@ -21,11 +21,16 @@ func GenerateAccessToken() (string, error) {
 	corpid := os.Getenv("corpid")
 	corpsecret := os.Getenv("corpsecret")
 
-	get, err := util.HTTPDoGet(fmt.Sprintf("https://%s/gettoken?corpid=%s&corpsecret=%s", QYAPI, corpid, corpsecret))
+	fmt.Println(corpid)
+	fmt.Println(corpsecret)
+
+	get, err := util.HTTPDoGet(fmt.Sprintf("http://%s/gettoken?corpid=%s&corpsecret=%s", QYAPI, corpid, corpsecret))
 
 	if err != nil {
 		return "", err
 	}
+
+	fmt.Printf("get token res [%s]\n", get)
 
 	var resp TokenRes
 	err = json.Unmarshal(get, &resp)
