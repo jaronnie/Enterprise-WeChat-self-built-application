@@ -12,7 +12,6 @@ import (
 	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
 	"os"
-	"time"
 )
 
 // morningCmd represents the morning command
@@ -24,17 +23,18 @@ var morningCmd = &cobra.Command{
 }
 
 var MorningTemplate = `😘😘😘😘😘😘😘😘😘😘
-缘儿的猪发消息来啦
-早安喔, 我最爱的老婆~
+🙋 早安喔, 我最爱的老婆~
 
-当前时间：{{.CurrentlyTime}}
-
-每日一句：{{.SentenceEnglish}}
+🕐 当前时间: {{.CurrentlyTime}}
+💞 与宝贝在一起的天数: {{.TogetherDays}} 天
+💭 每日一句：{{.SentenceEnglish}}
 {{.SentenceChinese}}
 `
 
 type MorningData struct {
 	CurrentlyTime   string
+	TogetherDays    string
+	LeftBirthday    string
 	SentenceEnglish string
 	SentenceChinese string
 }
@@ -47,7 +47,8 @@ func SendMorning(cmd *cobra.Command, args []string) {
 		return
 	}
 	db := MorningData{
-		CurrentlyTime:   cast.ToString(time.Now().Format("2006-01-02")),
+		CurrentlyTime:   util.GetCurrentlyTime(),
+		TogetherDays:    cast.ToString(util.GetTogetherDays()),
 		SentenceEnglish: sentenceEnglish,
 		SentenceChinese: sentenceChinese,
 	}
